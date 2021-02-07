@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
+        </Property>
+    </Properties>
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+        <!-- SMTP Appender -->
+        <SMTP name="MailAppender"
+              subject="Log4j2 Demo [PROD]"
+              to="cheavsovannarith@gmail.com"
+              from="sovannarith.bee1@gmail.com"
+              smtpHost="smtp.gmail.com"
+              smtpPort="465"
+              smtpUsername="sovannarith.bee1@gmail.com"
+              smtpPassword="Google01"
+              smtpProtocol="smtps"
+              smtpDebug="true"
+              bufferSize="4">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+        </SMTP>
+    </Appenders>
+    <Loggers>
+        <Logger name="info.sovannarith.logging" level="debug" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+        <Logger name="info.sovannarith.logging" level="error" additivity="false">
+            <AppenderRef ref="MailAppender" />
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="ConsoleAppender" />
+        </Root>
+    </Loggers>
+</Configuration>
